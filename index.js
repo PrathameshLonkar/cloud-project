@@ -1,102 +1,42 @@
-'use strict';
+const connection = require("./models");
+const express = require("express");
+const application  = express();
+const path = express("path");
+const expressHandlebars = require("express-handlebars");
+const bodyparser = require("body-parser");
+const routingController = require("./controllers/routing");
 
-const assert = require('assert');
-const express = require('express');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const querystring = require('querystring');
-const expressHandlebars = require('express-handlebars');
-const mongo = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
 
-const app = express();
-const port = 3000
-const STATIC_DIR = 'statics';
-const TEMPLATES_DIR = 'views';
-//app.get('/', (req, res) => res.send('Hello World!'))
-app.engine("hbs",expressHandlebars({
-  extname : "hbs", 
-  defaultLayout : __dirname + "/views/layouts" + "/mainLayout",
-  layoutDir : __dirname + "/views",
-  runtimeOptions: {
-      allowProtoPropertiesByDefault: true,
-      allowProtoMethodsByDefault: true,
-    }
+application.use(bodyparser.urlencoded({ 
+    extended: true
 }));
-app.set("view engine","hbs");
-app.locals.port = port;
-  app.locals.base = "localhost:3000/";
-  //app.locals.model = model;
-  //app.use('',express.static(STATIC_DIR));
 
 
-  process.chdir(__dirname);
-  app.get('/',function(req,res){
-  res.sendFile(__dirname +'/statics' + '/home.html');
-  })
-  setupTemplates(app);
-  setupRoutes(app);
-  app.listen(port, function() {
-    console.log(`listening on port ${port}`);
-  });
-  module.export = app;
-  function setupRoutes(app) {
-  const base = "localhost:3000/";
-  app.get(`/login`, loginAuth(app));
-  //app.get(`/search-by-location.html`, doSearchLocation(app));
-  //app.get(`/search-by-Long.html`, doSearchLong(app));
-  //app.get(`/comp-district.html`, doCompDistrict(app));
-  //app.get(`/Search-a-case.html`, doSearchCase(app));
+application.engine("hbs",expressHandlebars({
+    extname : "hbs", 
+    defaultLayout : "mainLayout",
+    layoutDir : __dirname + "/views/layouts",
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true,
+      }
+}));
+
+application.set("view engine","hbs");
+
+application.get("/",(req,res)=>{
+
+    res.render("index",{});
+});
+
+application.use("/routing",routingController);
 
 
-}
 
-function setupTemplates(app) {
-  app.templates = {};
-  for (let fname of fs.readdirSync(TEMPLATES_DIR)) {
-    const m = fname.match(/^([\w\-]+)\.hbs$/);
-    if (!m) continue;
-    try {
-      app.templates[m[1]] =
-	String(fs.readFileSync(`${TEMPLATES_DIR}/${fname}`));
+
+
+application.listen("3000",(err)=>{
+    if(!err){
+        console.log("Server listening");
     }
-    catch (e) {
-      console.error(`cannot read ${fname}: ${e}`);
-      process.exit(1);
-    }
-  }
-}
-
-function loginAuth(app){
-return async function(req,res){
-
-const username = req.query;
-console.log(username);
-const client=await mongo.connect(url,MONGO_OPTIONS);
-	const db=client.db("ShareSpace");
-	const collection = db.collection("Login_Data");
-	
-  const result = await collection.find(username);
-  var docs = await result.toArray();
-  console.log(docs.Username);
-  
-  let data1= result;
-  
-	//console.log(data1);
- // const html = doHbs(app, 'list', data,res);
- res.render("list",{data: data1});
- //res.send(html);
- 
-}
-}
-
-function doHbs(app,templateId,data,res) {
-
-  return res.render(app.templates[templateId], {data:data});
-}
-
-const MONGO_OPTIONS = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
+});
