@@ -5,20 +5,31 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const querystring = require('querystring');
-const expresHandlebars = require('express-handlebars');
+const expressHandlebars = require('express-handlebars');
 const mongo = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
 
-const app = express()
+const app = express();
 const port = 3000
 const STATIC_DIR = 'statics';
-const TEMPLATES_DIR = 'templates';
+const TEMPLATES_DIR = 'views';
 //app.get('/', (req, res) => res.send('Hello World!'))
-
+app.engine("hbs",expressHandlebars({
+  extname : "hbs", 
+  defaultLayout : __dirname + "/views/layouts" + "/mainLayout",
+  layoutDir : __dirname + "/views",
+  runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+      allowProtoMethodsByDefault: true,
+    }
+}));
+app.set("view engine","hbs");
 app.locals.port = port;
   app.locals.base = "localhost:3000/";
   //app.locals.model = model;
   //app.use('',express.static(STATIC_DIR));
+
+
   process.chdir(__dirname);
   app.get('/',function(req,res){
   res.sendFile(__dirname +'/statics' + '/home.html');
@@ -65,15 +76,21 @@ const client=await mongo.connect(url,MONGO_OPTIONS);
 	const db=client.db("ShareSpace");
 	const collection = db.collection("Login_Data");
 	
-	const result = await collection.find(username);
-	let data=await result.toArray();
-	console.log(data);
-	const html = doHbs(app, 'list', data);
-	res.send(html);
+  const result = await collection.find(username);
+  var docs = await result.toArray();
+  console.log(docs.Username);
+  
+  let data1= result;
+  
+	//console.log(data1);
+ // const html = doHbs(app, 'list', data,res);
+ res.render("list",{data: data1});
+ //res.send(html);
+ 
 }
 }
 
-function doHbs(app,templateId,data) {
+function doHbs(app,templateId,data,res) {
 
   return res.render(app.templates[templateId], {data:data});
 }
