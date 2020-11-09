@@ -31,7 +31,7 @@ app.locals.port = port;
   module.export = app;
   function setupRoutes(app) {
   const base = "localhost:3000/";
-  //app.get(`/search-primary.html`, doSearch(app));
+  app.get(`/login`, loginAuth(app));
   //app.get(`/search-by-location.html`, doSearchLocation(app));
   //app.get(`/search-by-Long.html`, doSearchLong(app));
   //app.get(`/comp-district.html`, doCompDistrict(app));
@@ -39,3 +39,26 @@ app.locals.port = port;
 
 
 }
+
+function loginAuth(app){
+return async function(req,res){
+
+const username = req.query;
+console.log(username);
+const client=await mongo.connect(url,MONGO_OPTIONS);
+	const db=client.db("ShareSpace");
+	const collection = db.collection("Login_Data");
+	
+	const result = await collection.find(username);
+	let data=await result.toArray();
+	console.log(data);
+
+res.send("html");
+}
+}
+
+const MONGO_OPTIONS = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
