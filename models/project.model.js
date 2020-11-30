@@ -8,7 +8,10 @@ var projectSchema = new mongoose.Schema({
     Password:{
         type : String,
     }
+},
+{collection: 'projects'}
+
     
-});
+);
 
 mongoose.model("project",projectSchema);
