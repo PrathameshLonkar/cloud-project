@@ -38,7 +38,7 @@ application.get("/",(req,res)=>{
 });
 
 application.post("/login",(req,res)=>{
-  
+  console.log(req.body);
     projectModel.find(req.body,(err, docs)=>{ 
         if(!err){
             console.log(docs);
@@ -58,7 +58,27 @@ application.post("/login",(req,res)=>{
 
 })
 
+application.get("/register",(req,res)=>{
+  res.render("Register_page");
 
+})
+
+application.post("/register_id",(req,res)=>{
+  
+    projectModel.insertMany(req.body,(err, docs)=>{ 
+        if(!err){
+            
+            res.render("login_page");
+         
+        }
+        else{
+         res.send(err);
+        }
+     }
+    )
+
+
+})
 application.use("/routing",routingController);
 
 
