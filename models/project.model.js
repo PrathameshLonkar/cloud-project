@@ -7,7 +7,10 @@ var projectSchema = new mongoose.Schema({
     },
     Password:{
         type : String,
-    }
+    },
+    Groups:[{
+        type : String,
+    }]
 },
 {collection: 'projects'}
 
@@ -15,3 +18,21 @@ var projectSchema = new mongoose.Schema({
 );
 
 mongoose.model("project",projectSchema);
+
+
+    
+
+
+var groupSchema = new mongoose.Schema({
+    Name :{
+        type : String,
+        required : "Required"
+    },
+    Members:[{type:String}]
+},
+{collection: 'group'}
+
+    
+);
+
+mongoose.model("group",groupSchema)

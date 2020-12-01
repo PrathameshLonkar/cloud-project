@@ -11,8 +11,11 @@ const grid = require('gridfs-stream');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const projectModel =  mongoose.model("project");
+const groupSchema =  mongoose.model("group");
 
 var username='';
+
+application.use(bodyparser.json());
 
 application.use(bodyparser.urlencoded({ 
     extended: true
@@ -45,7 +48,7 @@ application.post("/login",(req,res)=>{
             let data = docs[0].Username;
             username = data;
             console.log(data);
-            res.render("list",{data :docs});
+            res.render("list",{data :docs,users:docs});
            // console.log(docs);
          
         }
@@ -173,8 +176,163 @@ res.render("coll",{data : docs1, files : files});
 
 });
 
+application.get('/createGroup',(req,res)=>{
 
+  projectModel.find((err, docs)=>{ 
+    if(!err){
+        console.log(docs);
+        
+        res.render("Create_Group",{members :docs});
+       // console.log(docs);
+     
+    }
+    else{
+     res.send(err);
+    }
+ })
+});
+
+
+application.post('/create_g',(req,res)=>{
+
+
+let mem = req.body ;
+console.log(req.body);
+mem.Members.push(username);
+console.log(req.body);
+let docs1 = {Username: ''};
+let name =[];
+name.push(mem.Name);
+console.log(mem.Members);
+groupSchema.updateMany({Name:mem.Name},mem,{"upsert": true},(err)=>{ 
+  if(!err){
+      //console.log(docs);
+      projectModel.updateMany({Username:{$in:mem.Members}},{$addToSet:{Groups:{$each:name}}},(err,docs)=>{
+        if(!err){
+
+          console.log("Updated docs", docs);
+        }else{
+console.log("ERROR");
+
+        }
+
+      })
+      docs1["Username"] = username;
+
+      projectModel.find(docs1,(err, docs)=>{ 
+        if(!err){
+            console.log(docs);
+            
+            docs1["Username"] = username;
+            name=[];
+      
+      res.render("list",{data :docs1,users:docs});
+         
+        }
+        else{
+         res.send(err);
+        }
+     })
+      
+     // console.log(docs);
+   
+  }
+  else{
+   res.send(err);
+  }
+});
+
+
+})
+application.get('/searchGroup',(req,res)=>{
+
+  let docs1 = {Username: ''};
+  docs1["Username"] = username;
+  projectModel.find(docs1,(err, docs)=>{ 
+    if(!err){
+        console.log(docs);
+        
+      let group_arr = [];
+  docs.map(function(x){
+
+    x["Groups"].map(function(y){
+      console.log(y)
+      group_arr.push({Groups:y});
+      console.log(group_arr)
+    })
   
+
+    
+  })
+  
+  res.render("searchGroup",{data :docs1,users:group_arr});
+     
+    }
+    else{
+     res.send(err);
+    }
+ })
+})
+application.post('/findGroupContent',(req,res)=>{
+  console.log(req.body);
+
+  groupSchema.find(req.body,(err, docs)=>{ 
+        if(!err){
+            console.log(docs);
+            let fil=[];
+            docs.map(function(x){
+
+              x["Members"].map(function(y){
+                console.log(y)
+                fil.push(y);
+                console.log(fil)
+              })            
+          
+              
+            })
+            console.log(fil)
+            gfs.files.find({metadata: {owner : {$in:[fil]}}}).toArray((err,files) => {
+              let docs1 = {Username: ''};
+          if(!files || files.length === 0){
+          
+          
+          res.render("list",{data : docs1});
+          }
+          else{
+          //res.json(files);
+          console.log("Entered else");
+          
+          files.map(file =>{
+          
+          if(file.contentType === 'image/jpeg' || file.contentType === 'image/png'){
+          
+          
+              file.isImage = true;
+          }else{
+          file.isImage = false;
+          }
+          
+          })
+          console.log(files); 
+          res.render("coll",{files : files});
+          
+          
+          
+          }
+          
+          })
+      
+      
+         
+        }
+        else{
+         res.send(err);
+        }
+     })
+  
+})
+
+
 application.get('/image/:filename', (req, res) => {
     gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
       // Check if file
