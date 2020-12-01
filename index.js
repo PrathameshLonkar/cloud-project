@@ -273,6 +273,9 @@ application.get('/searchGroup',(req,res)=>{
     }
  })
 })
+
+
+
 application.post('/findGroupContent',(req,res)=>{
   console.log(req.body);
 
@@ -280,47 +283,44 @@ application.post('/findGroupContent',(req,res)=>{
         if(!err){
             console.log(docs);
             let fil=[];
+            let Files=[];
             docs.map(function(x){
 
               x["Members"].map(function(y){
                 console.log(y)
                 fil.push(y);
                 console.log(fil)
+                gfs.files.find({metadata: {owner: y}}).toArray((err,files) => {
+                  let docs1 = {Username: ''};
+              if(!files || files.length === 0){
+              
+              
+             // res.render("list",{data : docs1});
+              }
+              else{
+              //res.json(files);
+              console.log("Entered else");
+              
+              files.map(file =>{
+              
+              Files.push(file);
+              
+              })
+              console.log(Files); 
+              res.render("coll",{files : Files});
+              
+              
+              
+              }
+              
+              })
+              
               })            
           
               
             })
             console.log(fil)
-            gfs.files.find({metadata: {owner : {$in:[fil]}}}).toArray((err,files) => {
-              let docs1 = {Username: ''};
-          if(!files || files.length === 0){
-          
-          
-          res.render("list",{data : docs1});
-          }
-          else{
-          //res.json(files);
-          console.log("Entered else");
-          
-          files.map(file =>{
-          
-          if(file.contentType === 'image/jpeg' || file.contentType === 'image/png'){
-          
-          
-              file.isImage = true;
-          }else{
-          file.isImage = false;
-          }
-          
-          })
-          console.log(files); 
-          res.render("coll",{files : files});
-          
-          
-          
-          }
-          
-          })
+            
       
       
          
