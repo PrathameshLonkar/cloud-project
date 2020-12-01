@@ -33,11 +33,12 @@ application.engine("hbs",expressHandlebars({
 }));
 
 application.set("view engine","hbs");
-
+application.use(express.static('public'));
 application.get("/",(req,res)=>{
 
     //res.render("index",{});
-    res.render("login_page");
+    //res.render("login_page");
+    res.render("index");
 });
 
 application.post("/login",(req,res)=>{
