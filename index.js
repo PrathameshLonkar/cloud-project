@@ -37,9 +37,10 @@ application.use(express.static('public'));
 application.get("/",(req,res)=>{
 
     //res.render("index",{});
-    //res.render("login_page");
-    res.render("index");
+    res.render("login_page");
+   // res.render("loginpage");
 });
+
 
 application.post("/login",(req,res)=>{
   console.log(req.body);
