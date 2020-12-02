@@ -4,7 +4,8 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Sentra - Free Bootstrap Theme</title>
+        <title>Share Space</title>
+
         
 <!-- 
 
@@ -54,12 +55,26 @@ https://templatemo.com/tm-518-sentra
                 </nav>
             </div>
         </header>
-
+       
         <div class="sidebar-navigation hidde-sm hidden-xs">
             <div class="logo">
-                <a href="#">Sen<em>tra</em></a>
-            </div>
+                
+                <a href="#">Share <em> Space</em></a> 
+            <br>
+             
+        </div>
+
+            
+            
             <nav>
+                <ul>
+                    <li>
+                    {{#data}}
+                   <a href="#top">{{this.Username}}'s Dashboard </a>
+                    {{/data}}
+                    </li>
+                </ul>
+                
                 <ul>
                     <li>
                         <a href="#top">

@@ -50,7 +50,7 @@ application.post("/login",(req,res)=>{
             let data = docs[0].Username;
             username = data;
             console.log(data);
-            res.render("list",{data :docs,users:docs});
+            res.render("indexhomemain",{data :docs,users:docs});
            // console.log(docs);
          
         }
