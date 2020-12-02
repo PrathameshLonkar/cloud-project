@@ -91,11 +91,16 @@ else{
   res.send("USER NOT LOGGED IN ");
 }
 })
-application.get("/indexhomephotos",(req,res)=>{
-  
-  res.redirect("/displayCollection");
 
+application.get("/indexhomephotos",(req,res)=>{
+if(login == true){
+  res.redirect("/displayCollection");  
+}
+else{
+  res.send("USER NOT LOGGED IN ");
+}
 })
+
 
 application.get("/indexhomeshare",(req,res)=>{
   
@@ -228,8 +233,8 @@ const storage = new gridFsStorage({
 if(!files || files.length === 0){
     
     docs1["Username"] = username;
-    console.log("Entered if");
-   res.render("list",{data : docs1});
+  
+   res.render("indexhomephotos",{data : docs1});
 }
 else{
     //res.json(files);
@@ -246,7 +251,7 @@ file.isImage = false;
     }
 
 })
-console.log(files); 
+console.log(docs1);
 res.render("indexhomephotos",{data : docs1, files : files});
 
 
@@ -357,7 +362,7 @@ application.get('/searchGroup',(req,res)=>{
 
 
 
-application.post('/findGroupContent',(req,res)=>{
+application.post('/indexhomephotos',(req,res)=>{
   console.log(req.body);
 
   groupSchema.find(req.body,(err, docs)=>{ 
@@ -388,7 +393,7 @@ application.post('/findGroupContent',(req,res)=>{
               
               })
               console.log(Files); 
-              res.render("coll",{files : Files});
+              res.render("indexhomephotos",{files : Files});
               
               
               
