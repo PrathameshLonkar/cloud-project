@@ -217,7 +217,7 @@ const storage = new gridFsStorage({
     let docs1 = {Username: ''};
     docs1["Username"] = username;
     
-    res.render("list",{data :docs1});
+    res.render("indexhomeshare");
 
   });
 
