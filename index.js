@@ -37,8 +37,8 @@ application.use(express.static('public'));
 application.get("/",(req,res)=>{
 
     //res.render("index",{});
-    res.render("login_page");
-   // res.render("loginpage");
+    //res.render("login_page");
+    res.render("indexhome");
 });
 
 
