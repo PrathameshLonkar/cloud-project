@@ -269,7 +269,7 @@ application.get('/createGroup',(req,res)=>{
     if(!err){
         console.log(docs);
         
-        res.render("Create_Group",{members :docs});
+        res.render("indexhomecreategroups",{members :docs});
        // console.log(docs);
      
     }
@@ -280,7 +280,7 @@ application.get('/createGroup',(req,res)=>{
 });
 
 
-application.post('/create_g',(req,res)=>{
+application.post('/indexhomecreategroups',(req,res)=>{
 
 
 let mem = req.body ;
@@ -313,7 +313,7 @@ console.log("ERROR");
             docs1["Username"] = username;
             name=[];
       
-      res.render("list",{data :docs1,users:docs});
+      res.render("indexhomeshare",{data :docs1,users:docs});
          
         }
         else{
@@ -351,8 +351,8 @@ application.get('/searchGroup',(req,res)=>{
 
     
   })
-  
-  res.render("searchGroup",{data :docs1,users:group_arr});
+ 
+  res.render("indexhomesearchgroups",{data :docs1,users:group_arr});
      
     }
     else{
