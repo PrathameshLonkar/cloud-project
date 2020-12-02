@@ -44,6 +44,7 @@ application.get("/",(req,res)=>{
 });
 
 
+
 application.post("/login",(req,res)=>{
   console.log(req.body);
     projectModel.find(req.body,(err, docs)=>{ 
@@ -53,6 +54,7 @@ application.post("/login",(req,res)=>{
             username = data;
             console.log(data);
             login = true;
+            login_username = data;
             res.render("indexhomemain",{data :docs,users:docs});
            // console.log(docs);
          
@@ -67,9 +69,33 @@ application.post("/login",(req,res)=>{
 })
 
 
-application.get("/indexhomephotos",(req,res)=>{
+
+application.get("/indexhomemain",(req,res)=>{
+  
+  req.body.Username = login_username;
 if(login == true){
-  projectModel.find(req.body,(err, docs)=>{ 
+  projectModel.find({ "Username": req.body.Username},(err, docs)=>{ 
+    if(!err){
+        console.log(docs);
+        let data = docs[0].Username;
+        res.render("indexhomemain",{data :docs});
+       // console.log(docs);
+     
+    }
+    else{
+     res.send(err);
+    }
+ }
+);}
+else{
+  res.send("USER NOT LOGGED IN ");
+}
+})
+application.get("/indexhomephotos",(req,res)=>{
+  
+  req.body.Username = login_username;
+if(login == true){
+  projectModel.find({ "Username": req.body.Username},(err, docs)=>{ 
     if(!err){
         console.log(docs);
         let data = docs[0].Username;
