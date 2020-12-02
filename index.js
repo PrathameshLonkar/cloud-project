@@ -180,7 +180,7 @@ application.listen("3000",(err)=>{
 
 
 
-const url = 'mongodb+srv://plonkar1:Pratham@2901@cluster0.rfest.mongodb.net/cloudproject?retryWrites=true&w=majority';
+const url = 'mongodb://localhost:27017/cloudproject';
 var conn = mongoose.createConnection(url);
 let gfs;
 conn.once('open', ()=> {
