@@ -12,6 +12,8 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const projectModel =  mongoose.model("project");
 const groupSchema =  mongoose.model("group");
+var login = false;
+var login_username = '';
 
 var username='';
 
@@ -50,6 +52,7 @@ application.post("/login",(req,res)=>{
             let data = docs[0].Username;
             username = data;
             console.log(data);
+            login = true;
             res.render("indexhomemain",{data :docs,users:docs});
            // console.log(docs);
          
@@ -61,6 +64,27 @@ application.post("/login",(req,res)=>{
     )
 
 
+})
+
+
+application.get("/indexhomephotos",(req,res)=>{
+if(login == true){
+  projectModel.find(req.body,(err, docs)=>{ 
+    if(!err){
+        console.log(docs);
+        let data = docs[0].Username;
+        res.render("indexhomephotos",{data :docs});
+       // console.log(docs);
+     
+    }
+    else{
+     res.send(err);
+    }
+ }
+);}
+else{
+  res.send("USER NOT LOGGED IN ");
+}
 })
 
 application.get("/register",(req,res)=>{
