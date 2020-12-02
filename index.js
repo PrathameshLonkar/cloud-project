@@ -286,11 +286,11 @@ application.get('/indexhomemusic',(req,res)=>{
   res.render("indexhomemusic");
 });
 
-application.get('/indexhomevideo',(req,res)=>{
+application.get('/indexhomevideos',(req,res)=>{
 
   
   
-  res.render("indexhomevideo");
+  res.render("indexhomevideos");
 });
 
 application.post('/indexhomecreategroups',(req,res)=>{
