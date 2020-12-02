@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 var projectSchema = new mongoose.Schema({
     Username :{
         type : String,
-        required : "Required"
+        required : "Required",
+        
     },
     Password:{
         type : String,
+        required : "Required"
     },
     Groups:[{
         type : String,

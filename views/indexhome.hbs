@@ -127,8 +127,14 @@ https://templatemo.com/tm-518-sentra
         <br>
         <label>Password: </label><input value="" name="Password" />
         <br>
+        {{#data}}
+        <h3>{{this.Username}}'s already exists</h3>
+        {{/data}}
+
         <br>
         <button type="submit">Register!</button>
+
+
     </p>
 
 </form>

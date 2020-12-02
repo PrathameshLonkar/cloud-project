@@ -37,8 +37,8 @@ application.use(express.static('public'));
 application.get("/",(req,res)=>{
 
     //res.render("index",{});
-    //res.render("login_page");
-    res.render("indexhome");
+   // res.render("login_page");
+   res.render("indexhome");
 });
 
 
@@ -69,18 +69,40 @@ application.get("/register",(req,res)=>{
 })
 
 application.post("/register_id",(req,res)=>{
-  
-    projectModel.insertMany(req.body,(err, docs)=>{ 
-        if(!err){
-            console.log(req.body);
-            res.render("indexhome");
-         
-        }
-        else{
-         res.send(err);
-        }
-     }
-    )
+  var length,docs;
+  projectModel.find({ "Username": req.body.Username},(err, docs)=>{ 
+    if(!err){
+        
+       // console.log(docs);
+     length = (docs.length);
+     if(length == 0){
+
+      projectModel.insertMany(req.body,(err, docs)=>{ 
+          if(!err){
+              console.log(req.body);
+              res.redirect("/");
+           
+          }
+          else{
+           res.send(err);
+          }
+       }
+      )
+  }
+  else{
+    console.log(docs);
+  docs = docs[0];
+    
+    res.render("indexhome",{data: docs});
+  }
+    }
+    else{
+        res.send(err);
+    }
+ }
+)
+
+
 
 
 })
