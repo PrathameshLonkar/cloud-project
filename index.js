@@ -93,12 +93,9 @@ else{
 })
 
 application.get("/indexhomephotos",(req,res)=>{
-if(login == true){
+
   res.redirect("/displayCollection");  
-}
-else{
-  res.send("USER NOT LOGGED IN ");
-}
+
 })
 
 
@@ -228,6 +225,7 @@ const storage = new gridFsStorage({
 
   application.get('/displayCollection', (req, res) => {
 
+    if(login == true){
     gfs.files.find({metadata: {owner : username}}).toArray((err,files) => {
         let docs1 = {Username: ''};
 if(!files || files.length === 0){
@@ -259,7 +257,10 @@ res.render("indexhomephotos",{data : docs1, files : files});
 }
 
     })  
-
+  }
+  else{
+    res.send("USER NOT LOGGED IN ");
+  }
 });
 
 application.get('/createGroup',(req,res)=>{
