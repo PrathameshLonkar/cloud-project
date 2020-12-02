@@ -12,6 +12,8 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const projectModel =  mongoose.model("project");
 const groupSchema =  mongoose.model("group");
+var login = false;
+var login_username = '';
 
 var username='';
 
@@ -37,9 +39,10 @@ application.use(express.static('public'));
 application.get("/",(req,res)=>{
 
     //res.render("index",{});
-    //res.render("login_page");
-    res.render("indexhome");
+   // res.render("login_page");
+   res.render("indexhome");
 });
+
 
 
 application.post("/login",(req,res)=>{
@@ -50,7 +53,9 @@ application.post("/login",(req,res)=>{
             let data = docs[0].Username;
             username = data;
             console.log(data);
-            res.render("list",{data :docs,users:docs});
+            login = true;
+            login_username = data;
+            res.render("indexhomemain",{data :docs,users:docs});
            // console.log(docs);
          
         }
@@ -63,24 +68,100 @@ application.post("/login",(req,res)=>{
 
 })
 
+
+
+application.get("/indexhomemain",(req,res)=>{
+  
+  req.body.Username = login_username;
+if(login == true){
+  projectModel.find({ "Username": req.body.Username},(err, docs)=>{ 
+    if(!err){
+        console.log(docs);
+        let data = docs[0].Username;
+        res.render("indexhomemain",{data :docs});
+       // console.log(docs);
+     
+    }
+    else{
+     res.send(err);
+    }
+ }
+);}
+else{
+  res.send("USER NOT LOGGED IN ");
+}
+})
+
+application.get("/indexhomephotos",(req,res)=>{
+
+  res.redirect("/displayCollection");  
+
+})
+
+
+application.get("/indexhomeshare",(req,res)=>{
+  
+  req.body.Username = login_username;
+if(login == true){
+  projectModel.find({ "Username": req.body.Username},(err, docs)=>{ 
+    if(!err){
+        console.log(docs);
+        let data = docs[0].Username;
+        res.render("indexhomeshare",{data :docs});
+       // console.log(docs);
+     
+    }
+    else{
+     res.send(err);
+    }
+ }
+);}
+else{
+  res.send("USER NOT LOGGED IN ");
+}
+})
+
+
 application.get("/register",(req,res)=>{
   res.render("Register_page");
 
 })
 
 application.post("/register_id",(req,res)=>{
-  
-    projectModel.insertMany(req.body,(err, docs)=>{ 
-        if(!err){
-            
-            res.render("login_page");
-         
-        }
-        else{
-         res.send(err);
-        }
-     }
-    )
+  var length,docs;
+  projectModel.find({ "Username": req.body.Username},(err, docs)=>{ 
+    if(!err){
+        
+       // console.log(docs);
+     length = (docs.length);
+     if(length == 0){
+
+      projectModel.insertMany(req.body,(err, docs)=>{ 
+          if(!err){
+              console.log(req.body);
+              res.redirect("/");
+           
+          }
+          else{
+           res.send(err);
+          }
+       }
+      )
+  }
+  else{
+    console.log(docs);
+  docs = docs[0];
+    
+    res.render("indexhome",{data: docs});
+  }
+    }
+    else{
+        res.send(err);
+    }
+ }
+)
+
+
 
 
 })
@@ -138,19 +219,20 @@ const storage = new gridFsStorage({
     let docs1 = {Username: ''};
     docs1["Username"] = username;
     
-    res.render("list",{data :docs1});
+    res.render("indexhomeshare");
 
   });
 
   application.get('/displayCollection', (req, res) => {
 
+    if(login == true){
     gfs.files.find({metadata: {owner : username}}).toArray((err,files) => {
         let docs1 = {Username: ''};
 if(!files || files.length === 0){
     
     docs1["Username"] = username;
-    console.log("Entered if");
-   res.render("list",{data : docs1});
+  
+   res.render("indexhomephotos",{data : docs1});
 }
 else{
     //res.json(files);
@@ -167,15 +249,18 @@ file.isImage = false;
     }
 
 })
-console.log(files); 
-res.render("coll",{data : docs1, files : files});
+console.log(docs1);
+res.render("indexhomephotos",{data : docs1, files : files});
 
 
 
 }
 
     })  
-
+  }
+  else{
+    res.send("USER NOT LOGGED IN ");
+  }
 });
 
 application.get('/createGroup',(req,res)=>{
@@ -184,7 +269,7 @@ application.get('/createGroup',(req,res)=>{
     if(!err){
         console.log(docs);
         
-        res.render("Create_Group",{members :docs});
+        res.render("indexhomecreategroups",{members :docs});
        // console.log(docs);
      
     }
@@ -194,8 +279,21 @@ application.get('/createGroup',(req,res)=>{
  })
 });
 
+application.get('/indexhomemusic',(req,res)=>{
 
-application.post('/create_g',(req,res)=>{
+  
+  
+  res.render("indexhomemusic");
+});
+
+application.get('/indexhomevideo',(req,res)=>{
+
+  
+  
+  res.render("indexhomevideo");
+});
+
+application.post('/indexhomecreategroups',(req,res)=>{
 
 
 let mem = req.body ;
@@ -228,7 +326,7 @@ console.log("ERROR");
             docs1["Username"] = username;
             name=[];
       
-      res.render("list",{data :docs1,users:docs});
+      res.render("indexhomeshare",{data :docs1,users:docs});
          
         }
         else{
@@ -266,8 +364,8 @@ application.get('/searchGroup',(req,res)=>{
 
     
   })
-  
-  res.render("searchGroup",{data :docs1,users:group_arr});
+ 
+  res.render("indexhomesearchgroups",{data :docs1,users:group_arr});
      
     }
     else{
@@ -278,7 +376,7 @@ application.get('/searchGroup',(req,res)=>{
 
 
 
-application.post('/findGroupContent',(req,res)=>{
+application.post('/indexhomephotos',(req,res)=>{
   console.log(req.body);
 
   groupSchema.find(req.body,(err, docs)=>{ 
@@ -309,7 +407,7 @@ application.post('/findGroupContent',(req,res)=>{
               
               })
               console.log(Files); 
-              res.render("coll",{files : Files});
+              res.render("indexhomephotos",{files : Files});
               
               
               

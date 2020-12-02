@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>Share Space</title>
+
         
 <!-- 
 
@@ -44,27 +45,72 @@ https://templatemo.com/tm-518-sentra
             <div id="main-nav" class="collapse navbar-collapse">
                 <nav>
                     <ul class="nav navbar-nav">
-                        <li><a href="#top">Home</a></li>
-                        
+                        <li><a href="/indexhomemain">Home</a></li>
+                        <li><a href="/indexhomephotos">Photos Collection</a></li>
+                        <li><a href="/indexhomemusic">Music Collection</a></li>
+                        <li><a href="/indexhomevideos">Movies/Videos Collection</a></li>
+                        <li><a href="/indexhomeshare">Share Files!</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
                     </ul>
                 </nav>
             </div>
         </header>
-
+       
         <div class="sidebar-navigation hidde-sm hidden-xs">
             <div class="logo">
-                <a href="#">Share<em>Space</em></a>
-            </div>
+                
+                <a href="#">Share <em> Space</em></a> 
+            <br>
+             
+        </div>
+
+            
+            
             <nav>
                 <ul>
                     <li>
-                        <a href="#top">
+                    {{#data}}
+                   <a href="#top">{{this.Username}}'s Dashboard </a>
+                    {{/data}}
+                    </li>
+                </ul>
+                
+                <ul>
+                    <li>
+                        <a href="/indexhomemain">
                             <span class="rect"></span>
                             <span class="circle"></span>
                             Home
                         </a>
                     </li>
-                    
+                    <li>
+                        <a href="/indexhomephotos">
+                            <span class="rect"></span>
+                            <span class="circle"></span>
+                            Photos Collection
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/indexhomemusic">
+                            <span class="rect"></span>
+                            <span class="circle"></span>
+                            Music Collection
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/indexhomevideos">
+                            <span class="rect"></span>
+                            <span class="circle"></span>
+                            Movies/Videos Collection
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/indexhomeshare">
+                            <span class="rect"></span>
+                            <span class="circle"></span>
+                            Share Files!
+                        </a>
+                    </li>
                     <li>
                         <a href="#contact">
                             <span class="rect"></span>
@@ -83,70 +129,34 @@ https://templatemo.com/tm-518-sentra
             </ul>
         </div>
 
-        <div class="slider">
-            <div class="Modern-Slider content-section" id="top">
-                <!-- Item -->
-                <div class="item item-1">
-                    <div class="img-fill">
-                    <div class="image"></div>
-                    <div class="info">
-                        <div>
-                          <h1>Login</h1>
-                          <p>Please Login to Enter ShareSpace<br></p>
-                          <form action= "/login" method = "post">
-    <p>
-        <label>Username: </label><input value="" name="Username" />
-        <br>
-        <br>
-        <label>Password: </label><input value="" name="Password" />
-        <br>
-        <br>
-        <button type="Login!">Submit!</button>
-    </p>
-
-</form>
-                          
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- // Item -->
-                <!-- Item -->
-                <div class="item item-2">
-                    <div class="img-fill">
-                        <div class="image"></div>
-                        <div class="info">
-                        <div>
-                          <h1>Register if not done already!</h1>
-                          
-                                      </form>
-<form action= "/register_id" method = "post">                
-    <p>
-        <label>Username: </label><input value="" name="Username" />
-        <br>
-        <br>
-        <label>Password: </label><input value="" name="Password" />
-        <br>
-        {{#data}}
-        <h3>{{this.Username}}'s already exists</h3>
-        {{/data}}
-
-        <br>
-        <button type="submit">Register!</button>
-
-
-    </p>
-
-</form>
-                          
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- // Item -->
-               
-            </div>
+        
         </div>
+            <div class="page-content">
+            <section id="featured" class="content-section">
+                <div class="section-heading">
+                    <h1><br><em>Photo Collection</em></h1>
+                    
+                </div>
+
+                {{#each files}}
+
+                <div class="section-content">
+                    <div class="owl-carousel owl-theme">
+                        <div class="item">
+                            <div class="image">
+                                <img src="image/{{this.filename}}">
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <hr>
+{{/each}}
+
+            </section>
+            </div>
 
 
         
