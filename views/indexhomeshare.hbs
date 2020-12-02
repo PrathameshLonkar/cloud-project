@@ -46,11 +46,10 @@ https://templatemo.com/tm-518-sentra
                 <nav>
                     <ul class="nav navbar-nav">
                         <li><a href="/indexhomemain">Home</a></li>
-                        <li><a href="localhost:3000/indexhomephotos">Featured</a></li>
-                        
+                        <li><a href="/indexhomephotos">Featured</a></li>
                         <li><a href="#projects">Recent Projects</a></li>
                         <li><a href="#video">Presentation</a></li>
-                        <li><a href="/indexhomeshare">Blog Entries</a></li>
+                        <li><a href="#blog">Blog Entries</a></li>
                         <li><a href="#contact">Contact Us</a></li>
                     </ul>
                 </nav>
@@ -85,7 +84,7 @@ https://templatemo.com/tm-518-sentra
                         </a>
                     </li>
                     <li>
-                        <a href="localhost:3000/indexhomephotos"  target="_blank">
+                        <a href="/indexhomephotos">
                             <span class="rect"></span>
                             <span class="circle"></span>
                             Featured
@@ -106,10 +105,10 @@ https://templatemo.com/tm-518-sentra
                         </a>
                     </li>
                     <li>
-                        <a href="/indexhomeshare">
+                        <a href="#blog">
                             <span class="rect"></span>
                             <span class="circle"></span>
-                            Share Files!
+                            Blog Entires
                         </a>
                     </li>
                     <li>
@@ -130,83 +129,38 @@ https://templatemo.com/tm-518-sentra
             </ul>
         </div>
 
-        <div class="slider">
-            <div class="Modern-Slider content-section" id="top">
-                <!-- Item -->
-                <div class="item item-1">
-                    <div class="img-fill">
-                    <div class="image"></div>
-                    <div class="info">
-                        <div>
-                <h1>View Your Personal Photo Gallery</h1>
-                          <div class="white-button button">
-                              <hr>
-
-                              <a href="#featured">Gallery</a>
-
-                          </div>
-                        </div>
-                        </div>
-                    </div>
+  
+<hr>
+                <div class="section-heading">
+                    <h1>Featured<br><em>Places</em></h1>
+                
                 </div>
-                <!-- // Item -->
-                <!-- Item -->
-                <div class="item item-2">
-                    <div class="img-fill">
-                        <div class="image"></div>
-                        <div class="info">
-                        <div>
-                          <h1>Listen to Music!</h1>
-                          
 
-                          <div class="white-button button">
-
-                              <a href="#featured">Share More</a>
-                          </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- // Item -->
-                <!-- Item -->
-                <div class="item item-2">
-                    <div class="img-fill">
-                        <div class="image"></div>
-                        <div class="info">
-                        <div>
-                          <h1>Stream Movies/ Videos!</h1>
-                          
-
-                          <div class="white-button button">
-
-                              <a href="#featured">Share More</a>
-                          </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- // Item -->
-                <!-- Item -->
-                <div class="item item-2">
-                    <div class="img-fill">
-                        <div class="image"></div>
-                        <div class="info">
-                        <div>
-                          <h1>Share Files!</h1>
-                          
-
-                          <div class="white-button button">
-
-                              <a href="#featured">Share More</a>
-                          </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- // Item -->
-               
-            </div>
+                <div class="section-content">
+                    <div class="owl-carousel owl-theme">
+                              
         </div>
+            <div class="page-content">
+            <section id="featured" class="content-section">
+                </h1>
+<form action="/upload" method="POST" enctype="multipart/form-data">
+          <div class="custom-file mb-3">
+            <input type="file" name="file" id="file" class="custom-file-input">
+            <label for="file" class="custom-file-label">Choose File</label>
+          </div>
+          <input type="submit" value="Submit" class="btn btn-primary btn-block">
+        </form>
+
+<hr>
+
+<button><h1><a href="/displayCollection" >Open Collection</a></h1></button> <br>
+<button><h1><a href="/searchGroup" >Search Group</a></h1></button> <br>
+<button><h1><a href="/createGroup" >Create Group</a></h1></button> <br>
+
+                    </div>
+                </div>
+            </section>
+            </div>
 
 
         

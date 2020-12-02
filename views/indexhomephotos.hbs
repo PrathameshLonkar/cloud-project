@@ -49,7 +49,7 @@ https://templatemo.com/tm-518-sentra
                         <li><a href="/indexhomephotos">Featured</a></li>
                         <li><a href="#projects">Recent Projects</a></li>
                         <li><a href="#video">Presentation</a></li>
-                        <li><a href="#blog">Blog Entries</a></li>
+                        <li><a href="/indexhomeshare">Blog Entries</a></li>
                         <li><a href="#contact">Contact Us</a></li>
                     </ul>
                 </nav>
@@ -105,10 +105,10 @@ https://templatemo.com/tm-518-sentra
                         </a>
                     </li>
                     <li>
-                        <a href="#blog">
+                        <a href="/indexhomeshare">
                             <span class="rect"></span>
                             <span class="circle"></span>
-                            Blog Entires
+                            Share Files!
                         </a>
                     </li>
                     <li>
@@ -133,45 +133,33 @@ https://templatemo.com/tm-518-sentra
         </div>
             <div class="page-content">
             <section id="featured" class="content-section">
-                </h1>
-<form action="/upload" method="POST" enctype="multipart/form-data">
-          <div class="custom-file mb-3">
-            <input type="file" name="file" id="file" class="custom-file-input">
-            <label for="file" class="custom-file-label">Choose File</label>
-          </div>
-          <input type="submit" value="Submit" class="btn btn-primary btn-block">
-        </form>
-
-<hr>
-
-<button><h1><a href="/displayCollection" >Open Collection</a></h1></button> <br>
-<button><h1><a href="/searchGroup" >Search Group</a></h1></button> <br>
-<button><h1><a href="/createGroup" >Create Group</a></h1></button> <br>
-
-<hr>
                 <div class="section-heading">
                     <h1>Featured<br><em>Places</em></h1>
                     <p>Praesent pellentesque efficitur magna, 
                     <br>sed pellentesque neque malesuada vitae.</p>
                 </div>
 
+                {{#each files}}
+
+  
+
+
+
+
+                
                 <div class="section-content">
                     <div class="owl-carousel owl-theme">
                         <div class="item">
                             <div class="image">
-                                <img src="img/featured_1.jpg" alt="">
-                                <div class="featured-button button">
-                                    <a href="#projects">Continue Reading</a>
-                                </div>
+                                <img src="image/{{this.filename}}">
+                                
                             </div>
-                            <div class="text-content">
-                                <h4>Lorem ipsum dolor</h4>
-                                <span>Proin et sapien</span>
-                                <p>#1 You are allowed to use Sentra Template for your business or client websites. You can use it for commercial or non-commercial or educational purposes.</p>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
+{{/each}}
+
             </section>
             </div>
 

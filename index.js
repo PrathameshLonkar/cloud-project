@@ -93,13 +93,19 @@ else{
 })
 application.get("/indexhomephotos",(req,res)=>{
   
+  res.redirect("/displayCollection");
+
+})
+
+application.get("/indexhomeshare",(req,res)=>{
+  
   req.body.Username = login_username;
 if(login == true){
   projectModel.find({ "Username": req.body.Username},(err, docs)=>{ 
     if(!err){
         console.log(docs);
         let data = docs[0].Username;
-        res.render("indexhomephotos",{data :docs});
+        res.render("indexhomeshare",{data :docs});
        // console.log(docs);
      
     }
@@ -112,6 +118,7 @@ else{
   res.send("USER NOT LOGGED IN ");
 }
 })
+
 
 application.get("/register",(req,res)=>{
   res.render("Register_page");
@@ -240,7 +247,7 @@ file.isImage = false;
 
 })
 console.log(files); 
-res.render("coll",{data : docs1, files : files});
+res.render("indexhomephotos",{data : docs1, files : files});
 
 
 
