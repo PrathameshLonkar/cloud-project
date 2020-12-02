@@ -72,8 +72,8 @@ application.post("/register_id",(req,res)=>{
   
     projectModel.insertMany(req.body,(err, docs)=>{ 
         if(!err){
-            
-            res.render("login_page");
+            console.log(req.body);
+            res.render("indexhome");
          
         }
         else{
