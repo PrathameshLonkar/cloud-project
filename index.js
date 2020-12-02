@@ -279,6 +279,19 @@ application.get('/createGroup',(req,res)=>{
  })
 });
 
+application.get('/indexhomemusic',(req,res)=>{
+
+  
+  
+  res.render("indexhomemusic");
+});
+
+application.get('/indexhomevideo',(req,res)=>{
+
+  
+  
+  res.render("indexhomevideo");
+});
 
 application.post('/indexhomecreategroups',(req,res)=>{
 
