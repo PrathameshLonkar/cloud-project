@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const url = 'mongodb://localhost:27017/cloudproject';
+const url = 'mongodb+srv://plonkar1:prathamesh@cluster0.rfest.mongodb.net/cloudproject?retryWrites=true&w=majority';
 mongoose.connect(url,{ 
     useNewUrlParser: true, 
     useUnifiedTopology: true,
@@ -10,7 +10,7 @@ mongoose.connect(url,{
         console.log(err);
     }
     else{
-        console.log('Successful bitch!!');
+        console.log('Successful !!');
     }
 
  
